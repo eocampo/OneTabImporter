@@ -49,16 +49,44 @@ export function validateOneTabExport(data: unknown): OneTabGroup[] {
     throw new Error('Invalid OneTab export: expected an object');
   }
 
-  const obj = data as Record<string, unknown>;
+  let obj = data as Record<string, unknown>;
+
+  // Handle state being a string (double-encoded JSON from LevelDB)
+  if (typeof obj.state === 'string') {
+    try {
+      obj = { ...obj, state: JSON.parse(obj.state as string) };
+    } catch {
+      throw new Error('Invalid OneTab export: state is a string but not valid JSON');
+    }
+  }
 
   // Handle direct state object
   if (obj.state && typeof obj.state === 'object') {
-    const state = obj.state as Record<string, unknown>;
+    let state = obj.state as Record<string, unknown>;
+
+    // Handle tabGroups being a string (double-encoded)
+    if (typeof state.tabGroups === 'string') {
+      try {
+        state = { ...state, tabGroups: JSON.parse(state.tabGroups as string) };
+      } catch {
+        throw new Error('Invalid OneTab export: tabGroups is a string but not valid JSON');
+      }
+    }
+
     if (Array.isArray(state.tabGroups)) {
       if (!state.tabGroups.every(isValidGroup)) {
         throw new Error('Invalid OneTab export: tabGroups contains invalid entries');
       }
       return state.tabGroups as OneTabGroup[];
+    }
+  }
+
+  // Handle tabGroups being a string at top level
+  if (typeof obj.tabGroups === 'string') {
+    try {
+      obj = { ...obj, tabGroups: JSON.parse(obj.tabGroups as string) };
+    } catch {
+      throw new Error('Invalid OneTab export: tabGroups is a string but not valid JSON');
     }
   }
 

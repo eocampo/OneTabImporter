@@ -22,15 +22,28 @@ const ONETAB_KEYS = [
 
 /**
  * Attempt to read and parse a value from LevelDB
+ * Returns the value wrapped in an object with the key name
  */
 async function tryGetValue(
   db: ClassicLevel<string, string>,
   key: string
-): Promise<unknown | null> {
+): Promise<Record<string, unknown> | null> {
   try {
     const value = await db.get(key);
     if (value) {
-      return JSON.parse(value);
+      // Try to parse as JSON
+      try {
+        const parsed = JSON.parse(value);
+        // If it's an object, check if it has tabGroups directly
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+          return { [key]: parsed };
+        }
+        // Otherwise wrap it
+        return { [key]: parsed };
+      } catch {
+        // Not JSON, return as string
+        return { [key]: value };
+      }
     }
   } catch (error) {
     // Key not found or parse error, continue

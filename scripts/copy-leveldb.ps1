@@ -58,7 +58,9 @@ if (-not $ExtensionId) {
 
 # Build source path
 $BrowserDataPath = $BrowserPaths[$Browser]
-$SourcePath = Join-Path $BrowserDataPath $Profile 'Local Extension Settings' $ExtensionId
+$SourcePath = Join-Path -Path $BrowserDataPath -ChildPath $Profile
+$SourcePath = Join-Path -Path $SourcePath -ChildPath 'Local Extension Settings'
+$SourcePath = Join-Path -Path $SourcePath -ChildPath $ExtensionId
 
 Write-Host ""
 Write-Host "OneTab LevelDB Copy Script" -ForegroundColor Cyan
