@@ -1,0 +1,31 @@
+# Created by npm init
+node_modules/
+
+# Build output
+dist/
+
+# Data files (keep structure, ignore contents)
+data/*.json
+!data/.gitkeep
+
+# LevelDB copies
+leveldb-copy/
+
+# Output files
+output/
+
+# Search results
+search-results-*.json
+search-results-*.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*

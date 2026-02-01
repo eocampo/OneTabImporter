@@ -1,0 +1,41 @@
+{
+  "name": "onetab-importer",
+  "version": "1.0.0",
+  "description": "Import and manage OneTab links with timestamps - export to JSON and Markdown",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "onetab": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "import": "node dist/cli.js import",
+    "export": "node dist/cli.js export",
+    "search": "node dist/cli.js search",
+    "copy-db": "powershell -ExecutionPolicy Bypass -File scripts/copy-leveldb.ps1"
+  },
+  "keywords": [
+    "onetab",
+    "bookmarks",
+    "tabs",
+    "import",
+    "export",
+    "markdown"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "classic-level": "^1.4.1",
+    "commander": "^12.1.0",
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
