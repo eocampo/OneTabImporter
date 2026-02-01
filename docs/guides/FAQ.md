@@ -269,7 +269,7 @@ Yes, using the DevTools export method:
 
 ```bash
 # Example cron job (Linux/macOS)
-0 2 * * 0 cd /path/to/OneTabImporter && npm run start -- export >> /var/log/onetab.log 2>&1
+0 2 * * 0 cd /path/to/OneTabImporter && npm run start -- export >> ~/logs/onetab.log 2>&1
 ```
 
 Automated browser access isn't possible due to security restrictions.
